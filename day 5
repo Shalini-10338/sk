@@ -1,0 +1,81 @@
+#include<stdio.h>
+
+struct frac                                     //structure definition 
+{	int num;									//the numerator
+	int den;									//and denominator of fractions
+};
+
+struct frac fr[100];							//assuming user can input 100 fractions
+struct frac fsum;								//fraction to store sum
+struct frac get_a _frac();						//function to get a fraction from user
+void get_N_frac(int N);							//function to get N fractions from user
+void sum_2_frac(int i);							//function to add ith fraction with sum
+void sum_N_frac(int N);							//function to add N fractions from the array of fractions
+
+int main()
+{
+	int N;										//to take user input
+	fsum.num=0;									//initial value of sum=0/1
+	fsum.den=1;
+	scanf("%d",&N);
+	get_Nfrac(N);
+	sum_N_frac(N);
+	printf("%d/%d\n",fsum.num,fsum.den);
+	return 0;
+}
+struct frac get_a_frac()						//returns a fraction
+{	
+	struct frac fr;						
+	scanf("%d/%d",&fr.num,fr.den);
+	return fr;
+}
+void get_N_frac(int N)							// doesnt return anything just stores it
+{												//in the global array of fractions fr[100]
+    int i;
+	for(i=0; i<N; i++)
+		fr[i]=get_a_frac();
+}
+void sum_2_frac(int i)
+{
+	int num1,num2,sum,l;						
+	l= lcm(fr[i].den, fsum.den);				//take lcm of ith denominator and sum fraction denominator
+	num1= (fr[i].num)*(l/fr[i].den);			//num1 has the normalised numerator of the ith fraction
+	num2= (fsum.num)*(l/fsum.den);				//num2 has the normalised numerator of sum fraction
+	sum= num1+num2;
+	fsum.num= sum;								//stores the numerator computation as sum fraction's num 
+	fsum.den= l;								//stores the denominator computation as sum fraction's den
+}
+int lcm(int a, int b)							//I know there is a simpler way for this
+{												//but saw that later(This works just fine)
+	int j,n,l;
+	l=1;
+	n=(a>b)?a:b;
+	
+	for(j=2; j<=n; j++)
+	{
+		if((a!=1)&&(a%i==0))
+		{
+			l=l*j;
+			a=a/j;
+			if((b!=1)&&(b%j==0))
+				b=b/j;
+			j=2;
+		}
+		else if((b!=1)&&(b%j==0))
+		{
+			l=l*j;
+			b=b/j;
+			j=2;
+		}
+	}
+	return l;									//returns l which contains lcm
+}
+void sum_N_frac(int N)							//just calling sum_2_frac() N times
+{
+	int i;
+	for(i=0; i<N; i++)
+	{
+		sum_2_frac(i);
+		//printf("%d/%d\n",fsum.num,fsum.den);	//printf to check intermediate outputs 
+	}
+}
